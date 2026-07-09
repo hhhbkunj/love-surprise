@@ -107,6 +107,15 @@ to{
 transform:translateY(110vh);
 }
 }
+
+/* Running Away No Button Styling */
+#noBtn {
+    background: #555;
+    transition: 0.15s ease;
+}
+#noBtn:hover {
+    box-shadow: 0 0 20px #555;
+}
 </style>
 
 </head>
@@ -173,6 +182,28 @@ transform:translateY(110vh);
         and every beautiful moment. ❤️<br><br>
         <span style="color:pink; font-weight:bold; display:block; margin-top:30px;">✨ Stay Happy Always ✨</span>
     </p>
+    <!-- New Next Button Added Here As Requested -->
+    <button onclick="showLoveQuestionPage()" style="margin-top:40px;">Next ❤️</button>
+</div>
+
+<!-- Love Question Page (New Page) -->
+<div class="section" id="loveQuestionPage" style="position: relative; min-height: 80vh;">
+    <h1 style="margin-top:60px; color:#ff4da6; text-shadow:0 0 20px pink;">Love Question ❤️</h1>
+    <h2 style="margin-top:40px; font-size:32px; color:white;">Will you always stay with me?</h2>
+    
+    <div id="btnContainer" style="margin-top: 50px; display: flex; justify-content: center; gap: 30px; align-items: center;">
+        <button id="yesBtn" onclick="selectYes()" style="margin-top:0;">❤️ Yes</button>
+        <button id="noBtn" style="margin-top:0;">No</button>
+    </div>
+    
+    <!-- Success Message (Hidden Initially) -->
+    <div id="successMessage" style="display:none; margin-top: 50px;">
+        <h1 style="font-size:45px; color:#ff4da6; animation: scaleUp 0.5s ease;">I Knew It! 🥰 💖</h1>
+        <p style="font-size:22px; margin-top:20px; line-height:35px;">
+            I am the luckiest person to have you!<br>
+            Together Forever... ♾️ ❤️
+        </p>
+    </div>
 </div>
 
 
@@ -241,7 +272,12 @@ function showOneLastThingPage(){
  document.getElementById("oneLastThingPage").style.display="block";
 }
 
-// Fixed 100% Working Slider Logic
+// Function to Show Love Question Page
+function showLoveQuestionPage(){
+ document.getElementById("oneLastThingPage").style.display="none";
+ document.getElementById("loveQuestionPage").style.display="block";
+}
+
 let currentPhoto = 0;
 const totalPhotos = 5;
 const sliderWrapper = document.getElementById("sliderWrapper");
@@ -260,7 +296,6 @@ function prevPhoto() {
     updateSlider();
 }
 
-// Auto Slide Setup
 let autoSlideInterval = setInterval(nextPhoto, 3000);
 
 function resetSliderTimer() {
@@ -268,7 +303,6 @@ function resetSliderTimer() {
     autoSlideInterval = setInterval(nextPhoto, 3000);
 }
 
-// Manual Buttons Click Functionality
 function nextPhotoManual(){
     nextPhoto();
     resetSliderTimer();
@@ -279,7 +313,6 @@ function prevPhotoManual(){
     resetSliderTimer();
 }
 
-// Fixed Swipe Logic
 let touchStartX = 0;
 let touchEndX = 0;
 const galleryContainer = document.getElementById("gallerySlider");
@@ -295,10 +328,10 @@ galleryContainer.addEventListener('touchend', e => {
 
 function handleSwipe() {
     if (touchStartX - touchEndX > 50) {
-        nextPhotoManual(); // Swipe left -> Next
+        nextPhotoManual();
     }
     if (touchEndX - touchStartX > 50) {
-        prevPhotoManual(); // Swipe right -> Prev
+        prevPhotoManual();
     }
 }
 
@@ -333,6 +366,39 @@ showLove=function(){
  oldShowLove();
  setTimeout(typeMessage,300);
 };
+
+// --- Love Question Page Logic (No Escape & Yes Click) ---
+const noBtn = document.getElementById("noBtn");
+
+// Handles both Mobile Touch and Desktop Mouse Hover for No Button
+function moveNoButton() {
+    const maxX = window.innerWidth - noBtn.offsetWidth - 40;
+    const maxY = window.innerHeight - noBtn.offsetHeight - 40;
+    
+    // Generate random positions ensuring it stays inside view
+    const randomX = Math.max(20, Math.floor(Math.random() * maxX));
+    const randomY = Math.max(100, Math.floor(Math.random() * maxY));
+    
+    noBtn.style.position = "fixed";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", (e) => {
+    e.preventDefault(); // Stops accidental clicks on mobile
+    moveNoButton();
+});
+
+function selectYes() {
+    // Hide question and No button completely
+    document.getElementById("noBtn").style.display = "none";
+    document.getElementById("yesBtn").style.display = "none";
+    document.querySelector("#loveQuestionPage h2").style.display = "none";
+    
+    // Show success sweet message
+    document.getElementById("successMessage").style.display = "block";
+}
 
 </script>
 
