@@ -118,7 +118,7 @@ transform:translateY(110vh);
 <div class="hero" style="display:none;">
 <h1>Gayathiri ❤️</h1>
 
-<h2>I made something special only for you...</h2><h3 style="margin-top:20px;color:#ffd1e8;">💖 Open My Heart 💖</h3>
+<h2>I made something special only for you...</h2>
 
 <button id="loveBtn" onclick="showLove()">Open My Heart ❤️</button>
 
@@ -131,15 +131,15 @@ transform:translateY(110vh);
 <p id="typingText" style="margin-top:25px;font-size:22px;line-height:40px;max-width:800px;margin:auto;white-space:pre-line;"></p>
 
 
-<div class="gallery" style="max-width:430px;margin:40px auto;text-align:center;">
-<img id="sliderImage" src="photo1.jpg" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;transition:opacity .6s ease;">
-<div style="margin-top:18px;display:flex;justify-content:center;gap:15px;">
-<button onclick="prevPhoto()">⬅ Previous</button>
-<button onclick="nextPhoto()">Next ➡</button>
-</div>
+
+<div class="gallery" style="max-width:420px;margin:40px auto;">
+  <img id="sliderImage" src="photo1.jpg"
+       style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;
+       transition:opacity .6s ease, transform .6s ease;box-shadow:0 0 20px rgba(255,255,255,.25);">
 </div>
 
 </div>
+
 
 
 
@@ -234,21 +234,6 @@ function showFinalPage(){
 }
 
 
-const photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
-let currentPhoto=0;
-function showPhoto(){
- document.getElementById("sliderImage").src=photos[currentPhoto];
-}
-function nextPhoto(){
- currentPhoto=(currentPhoto+1)%photos.length;
- showPhoto();
-}
-function prevPhoto(){
- currentPhoto=(currentPhoto-1+photos.length)%photos.length;
- showPhoto();
-}
-
-
 const message=`Dear Gayathiri...
 
 I never knew someone
@@ -284,32 +269,41 @@ showLove=function(){
 const photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
 let current=0;
 
-function renderPhoto(){
+function fadeTo(index){
  const img=document.getElementById("sliderImage");
  if(!img) return;
- img.style.opacity=0;
+ img.style.opacity="0";
+ img.style.transform="scale(0.97)";
  setTimeout(()=>{
-   img.src=photos[current];
-   img.style.opacity=1;
- },250);
+   img.src=photos[index];
+   img.style.opacity="1";
+   img.style.transform="scale(1)";
+ },300);
 }
 
 function nextPhoto(){
  current=(current+1)%photos.length;
- renderPhoto();
+ fadeTo(current);
 }
 
-function prevPhoto(){
- current=(current-1+photos.length)%photos.length;
- renderPhoto();
-}
+setInterval(nextPhoto,3000);
 
-setInterval(()=>{
- const sec=document.getElementById("love");
- if(sec && sec.style.display==="block"){
-   nextPhoto();
+// Mobile swipe
+let startX=0;
+document.addEventListener("touchstart",e=>{
+ startX=e.touches[0].clientX;
+});
+document.addEventListener("touchend",e=>{
+ const endX=e.changedTouches[0].clientX;
+ if(Math.abs(endX-startX)>50){
+   if(endX<startX){
+      nextPhoto();
+   }else{
+      current=(current-1+photos.length)%photos.length;
+      fadeTo(current);
+   }
  }
-},3000);
+});
 
 </script>
 
