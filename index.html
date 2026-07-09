@@ -132,7 +132,7 @@ transform:translateY(110vh);
 <h1 id="typingTitle">❤️</h1>
 <p id="typingText" style="margin-top:25px;font-size:22px;line-height:40px;max-width:800px;margin:auto;white-space:pre-line;"></p>
 
-<!-- Upgraded Photo Gallery with Swipe & Auto Slide -->
+<!-- Photo Gallery Container -->
 <div class="gallery-container" id="gallerySlider">
   <div class="slider-wrapper" id="sliderWrapper">
     <img src="photo1.jpg" alt="Photo 1">
@@ -156,12 +156,14 @@ transform:translateY(110vh);
 <div class="section" id="finalPage">
     <h1 style="margin-top:60px;">Forever ❤️</h1>
     <h2 style="margin-top:25px;">Gayathiri ❤️</h2>
-    
-    <!-- Next Button Only -->
+    <p style="margin-top:25px;font-size:22px;line-height:38px;max-width:800px;margin-left:auto;margin-right:auto;">
+        No matter where life takes us,<br><br>
+        You will always have a special place in my heart. ❤️
+    </p>
     <button onclick="showOneLastThingPage()" style="margin-top:40px;">Next ❤️</button>
 </div>
 
-<!-- One Last Thing Page (New Page) -->
+<!-- One Last Thing Page -->
 <div class="section" id="oneLastThingPage">
     <h1 style="margin-top:60px; color:#ff4da6; text-shadow:0 0 20px pink;">💖 One Last Thing...</h1>
     <p style="margin-top:35px;font-size:24px;line-height:42px;max-width:800px;margin-left:auto;margin-right:auto;">
@@ -197,7 +199,7 @@ heart.remove();
 function unlockSite(){
  const p=document.getElementById("pwd").value.trim();
  if(p==="Gayu"){
-   document.getElementById("msg").innerHTML="Loading Memories... ❤️<br><br><span id="loadPct">0%</span>";
+   document.getElementById("msg").innerHTML="Loading Memories... ❤️<br><br><span id=\"loadPct\">0%</span>";
    let v=0;
    const timer=setInterval(function(){
       v+=5;
@@ -233,13 +235,11 @@ function showFinalPage(){
  document.getElementById("finalPage").style.display="block";
 }
 
-// Function to Navigate to the New Last Page
 function showOneLastThingPage(){
  document.getElementById("finalPage").style.display="none";
  document.getElementById("oneLastThingPage").style.display="block";
 }
 
-// Upgraded Slider Logic (Auto Slide + Smooth Transition + Mobile Swipe)
 let currentPhoto = 0;
 const totalPhotos = 5;
 const sliderWrapper = document.getElementById("sliderWrapper");
@@ -258,16 +258,13 @@ function prevPhoto() {
     updateSlider();
 }
 
-// Auto Slide Every 3 Seconds
 let autoSlideInterval = setInterval(nextPhoto, 3000);
 
-// Reset timer when user manually changes photo
 function resetSliderTimer() {
     clearInterval(autoSlideInterval);
     autoSlideInterval = setInterval(nextPhoto, 3000);
 }
 
-// Mobile Swipe Implementation
 let touchStartX = 0;
 let touchEndX = 0;
 const galleryContainer = document.getElementById("gallerySlider");
@@ -283,11 +280,11 @@ galleryContainer.addEventListener('touchend', e => {
 
 function handleSwipe() {
     if (touchStartX - touchEndX > 50) {
-        nextPhoto(); // Swiped left
+        nextPhoto();
         resetSliderTimer();
     }
     if (touchEndX - touchStartX > 50) {
-        prevPhoto(); // Swiped right
+        prevPhoto();
         resetSliderTimer();
     }
 }
