@@ -138,19 +138,15 @@ No matter where life takes us,<br>
 You will always have a special place in my heart. ❤️
 </p>
 
-<div class="gallery">
 
-<img src="photo1.jpg">
-
-<img src="photo2.jpg">
-
-<img src="photo3.jpg">
-
-<img src="photo4.jpg">
-
-<img src="photo5.jpg">
-
+<div class="gallery" id="gallerySlider" style="max-width:420px;margin:40px auto;text-align:center;">
+  <img id="sliderImage" src="photo1.jpg" style="width:100%;border-radius:20px;box-shadow:0 0 20px rgba(255,255,255,.2);">
+  <div style="margin-top:20px;">
+    <button onclick="prevPhoto()">⬅ Previous</button>
+    <button onclick="nextPhoto()">Next ➡</button>
+  </div>
 </div>
+
 
 
 <div class="footer">
@@ -231,6 +227,21 @@ loveBtn.addEventListener("mouseover",()=>{
 function showFinalPage(){
  document.getElementById("love").style.display="none";
  document.getElementById("finalPage").style.display="block";
+}
+
+
+const photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
+let currentPhoto=0;
+function showPhoto(){
+ document.getElementById("sliderImage").src=photos[currentPhoto];
+}
+function nextPhoto(){
+ currentPhoto=(currentPhoto+1)%photos.length;
+ showPhoto();
+}
+function prevPhoto(){
+ currentPhoto=(currentPhoto-1+photos.length)%photos.length;
+ showPhoto();
 }
 
 </script>
