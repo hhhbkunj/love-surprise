@@ -115,8 +115,8 @@ transform:translateY(110vh);
 </div></div>
 
 
-<div class="hero">
-<h1>Rohith ❤️ Gayathiri</h1>
+<div class="hero" style="display:none;">
+<h1>Gayathiri ❤️</h1>
 
 <h2>I made something special only for you...</h2>
 
@@ -126,26 +126,20 @@ transform:translateY(110vh);
 
 <div class="section" id="love">
 
-<h1>Dear Gayathiri ❤️</h1>
+<h1 id="typingTitle">❤️</h1>
 
-<p style="margin-top:25px;font-size:22px;line-height:40px;max-width:800px;margin:auto;">
-Thank you for coming into my life.<br><br>
-
-Every smile of yours is my favourite memory.<br><br>
-
-No matter where life takes us,<br>
-
-You will always have a special place in my heart. ❤️
-</p>
+<p id="typingText" style="margin-top:25px;font-size:22px;line-height:40px;max-width:800px;margin:auto;white-space:pre-line;"></p>
 
 
-<div class="gallery" id="gallerySlider" style="max-width:420px;margin:40px auto;text-align:center;">
-  <img id="sliderImage" src="photo1.jpg" style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;box-shadow:0 0 20px rgba(255,255,255,.2);">
-  <div style="margin-top:20px;">
-    <button onclick="prevPhoto()">⬅ Previous</button>
-    <button onclick="nextPhoto()">Next ➡</button>
-  </div>
+
+<div class="gallery" style="max-width:420px;margin:40px auto;">
+  <img id="sliderImage" src="photo1.jpg"
+       style="width:100%;aspect-ratio:4/5;object-fit:cover;border-radius:20px;
+       transition:opacity .6s ease, transform .6s ease;box-shadow:0 0 20px rgba(255,255,255,.25);">
 </div>
+
+</div>
+
 
 
 
@@ -157,7 +151,7 @@ You will always have a special place in my heart. ❤️
 
 <div class="section" id="finalPage">
     <h1 style="margin-top:60px;">Forever ❤️</h1>
-    <h2 style="margin-top:25px;">Rohith ❤️ Gayathiri</h2>
+    <h2 style="margin-top:25px;">Gayathiri ❤️</h2>
     <p style="margin-top:25px;font-size:22px;line-height:38px;max-width:800px;margin-left:auto;margin-right:auto;">
         No matter where life takes us,<br><br>
         You will always have a special place in my heart. ❤️
@@ -203,23 +197,33 @@ heart.remove();
 function unlockSite(){
  const p=document.getElementById("pwd").value.trim();
  if(p==="Gayu"){
-   document.getElementById("lockScreen").style.display="none";
+   document.getElementById("msg").innerHTML="Loading Memories... ❤️<br><br><span id=\"loadPct\">0%</span>";
+   let v=0;
+   const timer=setInterval(function(){
+      v+=5;
+      document.getElementById("loadPct").innerText=v+"%";
+      if(v>=100){
+         clearInterval(timer);
+         document.getElementById("lockScreen").style.display="none";
+         document.querySelector(".hero").style.display="flex";
+      }
+   },120);
  }else{
    document.getElementById("msg").innerText="Wrong Password ❤️";
  }
 }
 
 const loveBtn=document.getElementById("loveBtn");
-const texts=["😜 Catch Me...","😂 Not So Easy...","🤭 Try Again...","🥹 Almost There...","💖 Okay... Click Me!"];
+const texts=["😜 Catch Me!","😂 Too Slow!","🙈 Nope!","🤭 Try Again!","😎 Almost!","💘 Still Not!","🥰 One More!","😅 Keep Trying!","😍 Nearly There!","💖 Okay... Click Me!"];
 let escapeCount=0;
 loveBtn.addEventListener("mouseover",()=>{
- if(escapeCount>=9){loveBtn.innerHTML=texts[4];return;}
+ if(escapeCount>=9){loveBtn.innerHTML=texts[9];return;}
  const maxX=window.innerWidth-loveBtn.offsetWidth-20;
  const maxY=window.innerHeight-loveBtn.offsetHeight-20;
  loveBtn.style.position="fixed";
  loveBtn.style.left=Math.random()*maxX+"px";
  loveBtn.style.top=Math.random()*maxY+"px";
- loveBtn.innerHTML=texts[Math.min(escapeCount,3)];
+ loveBtn.innerHTML=texts[Math.min(escapeCount,9)];
  escapeCount++;
 });
 
@@ -230,19 +234,76 @@ function showFinalPage(){
 }
 
 
+const message=`Dear Gayathiri...
+
+I never knew someone
+could make my life
+this beautiful...
+
+Every smile of yours
+became my favourite memory.
+
+Thank you for being
+part of my life. ❤️`;
+
+function typeMessage(){
+ let i=0;
+ const title=document.getElementById("typingTitle");
+ const box=document.getElementById("typingText");
+ title.innerHTML="Dear Gayathiri ❤️";
+ box.innerHTML="";
+ const timer=setInterval(()=>{
+   box.innerHTML+=message.charAt(i);
+   i++;
+   if(i>=message.length) clearInterval(timer);
+ },45);
+}
+
+const oldShowLove=showLove;
+showLove=function(){
+ oldShowLove();
+ setTimeout(typeMessage,300);
+};
+
+
 const photos=["photo1.jpg","photo2.jpg","photo3.jpg","photo4.jpg","photo5.jpg"];
-let currentPhoto=0;
-function showPhoto(){
- document.getElementById("sliderImage").src=photos[currentPhoto];
+let current=0;
+
+function fadeTo(index){
+ const img=document.getElementById("sliderImage");
+ if(!img) return;
+ img.style.opacity="0";
+ img.style.transform="scale(0.97)";
+ setTimeout(()=>{
+   img.src=photos[index];
+   img.style.opacity="1";
+   img.style.transform="scale(1)";
+ },300);
 }
+
 function nextPhoto(){
- currentPhoto=(currentPhoto+1)%photos.length;
- showPhoto();
+ current=(current+1)%photos.length;
+ fadeTo(current);
 }
-function prevPhoto(){
- currentPhoto=(currentPhoto-1+photos.length)%photos.length;
- showPhoto();
-}
+
+setInterval(nextPhoto,3000);
+
+// Mobile swipe
+let startX=0;
+document.addEventListener("touchstart",e=>{
+ startX=e.touches[0].clientX;
+});
+document.addEventListener("touchend",e=>{
+ const endX=e.changedTouches[0].clientX;
+ if(Math.abs(endX-startX)>50){
+   if(endX<startX){
+      nextPhoto();
+   }else{
+      current=(current-1+photos.length)%photos.length;
+      fadeTo(current);
+   }
+ }
+});
 
 </script>
 
