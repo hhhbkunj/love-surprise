@@ -156,11 +156,8 @@ transform:translateY(110vh);
 <div class="section" id="finalPage">
     <h1 style="margin-top:60px;">Forever ❤️</h1>
     <h2 style="margin-top:25px;">Gayathiri ❤️</h2>
-    <p style="margin-top:25px;font-size:22px;line-height:38px;max-width:800px;margin-left:auto;margin-right:auto;">
-        No matter where life takes us,<br><br>
-        You will always have a special place in my heart. ❤️
-    </p>
-    <!-- New Next Button Added Here -->
+    
+    <!-- Next Button Only -->
     <button onclick="showOneLastThingPage()" style="margin-top:40px;">Next ❤️</button>
 </div>
 
@@ -200,7 +197,7 @@ heart.remove();
 function unlockSite(){
  const p=document.getElementById("pwd").value.trim();
  if(p==="Gayu"){
-   document.getElementById("msg").innerHTML="Loading Memories... ❤️<br><br><span id=\"loadPct\">0%</span>";
+   document.getElementById("msg").innerHTML="Loading Memories... ❤️<br><br><span id="loadPct">0%</span>";
    let v=0;
    const timer=setInterval(function(){
       v+=5;
