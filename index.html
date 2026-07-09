@@ -105,12 +105,22 @@ transform:translateY(110vh);
 </head>
 <body>
 
+<div id="lockScreen" style="position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999;">
+<div style="background:#1b1b1b;padding:30px;border-radius:20px;text-align:center;max-width:320px;width:90%;box-shadow:0 0 20px #ff4da6;">
+<h2 style="color:#ff4da6;">🔒 Secret Surprise</h2>
+<p>Enter Password</p>
+<input id="pwd" type="password" placeholder="Password" style="padding:10px;width:90%;border-radius:10px;border:none;margin:10px 0;">
+<br><button onclick="unlockSite()">Open</button>
+<p id="msg" style="color:#ff8080;margin-top:10px;"></p>
+</div></div>
+
+
 <div class="hero">
 <h1>Rohith ❤️ Gayathiri</h1>
 
 <h2>I made something special only for you...</h2>
 
-<button onclick="showLove()">Open My Heart ❤️</button>
+<button id="loveBtn" onclick="showLove()">Open My Heart ❤️</button>
 
 </div>
 
@@ -142,17 +152,22 @@ You will always have a special place in my heart. ❤️
 
 </div>
 
+
 <div class="footer">
-
-Forever ❤️
-
-<br><br>
-
-Rohith ❤️ Gayathiri
-
+<button onclick="showFinalPage()" style="margin-top:20px;">Next ❤️</button>
 </div>
 
 </div>
+
+<div class="section" id="finalPage">
+    <h1 style="margin-top:60px;">Forever ❤️</h1>
+    <h2 style="margin-top:25px;">Rohith ❤️ Gayathiri</h2>
+    <p style="margin-top:25px;font-size:22px;line-height:38px;max-width:800px;margin-left:auto;margin-right:auto;">
+        No matter where life takes us,<br><br>
+        You will always have a special place in my heart. ❤️
+    </p>
+</div>
+
 
 <script>
 
@@ -188,7 +203,37 @@ heart.remove();
 
 },250);
 
+
+function unlockSite(){
+ const p=document.getElementById("pwd").value.trim();
+ if(p==="Gayu"){
+   document.getElementById("lockScreen").style.display="none";
+ }else{
+   document.getElementById("msg").innerText="Wrong Password ❤️";
+ }
+}
+
+const loveBtn=document.getElementById("loveBtn");
+const texts=["😜 Catch Me...","😂 Not So Easy...","🤭 Try Again...","🥹 Almost There...","💖 Okay... Click Me!"];
+let escapeCount=0;
+loveBtn.addEventListener("mouseover",()=>{
+ if(escapeCount>=9){loveBtn.innerHTML=texts[4];return;}
+ const maxX=window.innerWidth-loveBtn.offsetWidth-20;
+ const maxY=window.innerHeight-loveBtn.offsetHeight-20;
+ loveBtn.style.position="fixed";
+ loveBtn.style.left=Math.random()*maxX+"px";
+ loveBtn.style.top=Math.random()*maxY+"px";
+ loveBtn.innerHTML=texts[Math.min(escapeCount,3)];
+ escapeCount++;
+});
+
+
+function showFinalPage(){
+ document.getElementById("love").style.display="none";
+ document.getElementById("finalPage").style.display="block";
+}
+
 </script>
 
 </body>
-</html>]
+</html>
