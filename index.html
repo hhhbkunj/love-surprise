@@ -63,7 +63,7 @@ padding:80px 20px;
 display:none;
 }
 
-/* Slider Custom Styles */
+/* 100% working slider CSS */
 .gallery-container {
 max-width:420px;
 margin:40px auto;
@@ -81,7 +81,8 @@ width: 100%;
 }
 
 .slider-wrapper img {
-width:100%;
+width: 100%;
+display: block;
 flex-shrink: 0;
 aspect-ratio:4/5;
 object-fit:cover;
@@ -132,7 +133,7 @@ transform:translateY(110vh);
 <h1 id="typingTitle">❤️</h1>
 <p id="typingText" style="margin-top:25px;font-size:22px;line-height:40px;max-width:800px;margin:auto;white-space:pre-line;"></p>
 
-<!-- Photo Gallery Container -->
+<!-- Perfect Slider Area -->
 <div class="gallery-container" id="gallerySlider">
   <div class="slider-wrapper" id="sliderWrapper">
     <img src="photo1.jpg" alt="Photo 1">
@@ -143,8 +144,8 @@ transform:translateY(110vh);
   </div>
 </div>
 <div style="margin-top:10px;">
-  <button onclick="prevPhoto()" style="padding: 10px 20px; font-size: 16px; margin-top: 10px;">⬅ Prev</button>
-  <button onclick="nextPhoto()" style="padding: 10px 20px; font-size: 16px; margin-top: 10px;">Next ➡</button>
+  <button onclick="prevPhotoManual()" style="padding: 10px 20px; font-size: 16px; margin-top: 10px;">⬅ Prev</button>
+  <button onclick="nextPhotoManual()" style="padding: 10px 20px; font-size: 16px; margin-top: 10px;">Next ➡</button>
 </div>
 
 <div class="footer">
@@ -240,6 +241,7 @@ function showOneLastThingPage(){
  document.getElementById("oneLastThingPage").style.display="block";
 }
 
+// Fixed 100% Working Slider Logic
 let currentPhoto = 0;
 const totalPhotos = 5;
 const sliderWrapper = document.getElementById("sliderWrapper");
@@ -258,6 +260,7 @@ function prevPhoto() {
     updateSlider();
 }
 
+// Auto Slide Setup
 let autoSlideInterval = setInterval(nextPhoto, 3000);
 
 function resetSliderTimer() {
@@ -265,27 +268,37 @@ function resetSliderTimer() {
     autoSlideInterval = setInterval(nextPhoto, 3000);
 }
 
+// Manual Buttons Click Functionality
+function nextPhotoManual(){
+    nextPhoto();
+    resetSliderTimer();
+}
+
+function prevPhotoManual(){
+    prevPhoto();
+    resetSliderTimer();
+}
+
+// Fixed Swipe Logic
 let touchStartX = 0;
 let touchEndX = 0;
 const galleryContainer = document.getElementById("gallerySlider");
 
 galleryContainer.addEventListener('touchstart', e => {
     touchStartX = e.changedTouches[0].screenX;
-});
+}, {passive: true});
 
 galleryContainer.addEventListener('touchend', e => {
     touchEndX = e.changedTouches[0].screenX;
     handleSwipe();
-});
+}, {passive: true});
 
 function handleSwipe() {
     if (touchStartX - touchEndX > 50) {
-        nextPhoto();
-        resetSliderTimer();
+        nextPhotoManual(); // Swipe left -> Next
     }
     if (touchEndX - touchStartX > 50) {
-        prevPhoto();
-        resetSliderTimer();
+        prevPhotoManual(); // Swipe right -> Prev
     }
 }
 
